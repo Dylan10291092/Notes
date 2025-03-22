@@ -42,8 +42,6 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .save { background: #4CAF50; color: white; }
-        .load { background: #2196F3; color: white; }
         .clear { background: #f44336; color: white; }
         .dark-mode-btn { background: #555; color: white; }
 
@@ -79,45 +77,35 @@
     <h2>Notes</h2>
     <textarea id="notepad" placeholder="Write your notes here..."></textarea>
     <div class="buttons">
-        <button class="save" onclick="saveNote()">Save</button>
-        <button class="load" onclick="loadNote()">Load</button>
         <button class="clear" onclick="clearNote()">Clear</button>
         <button class="dark-mode-btn" onclick="toggleDarkMode()">Dark Mode</button>
     </div>
 
     <script>
-        function saveNote() {
-            let text = document.getElementById('notepad').value;
-            localStorage.setItem('note', text);
-            alert("Saved note!");
-        }
+        const notepad = document.getElementById('notepad');
 
-        function loadNote() {
-            let text = localStorage.getItem('note');
-            if (text) {
-                document.getElementById('notepad').value = text;
-                alert("Loaded note!");
-            } else {
-                alert("No saved note found.");
-            }
-        }
+        // Auto-save on input
+        notepad.addEventListener('input', () => {
+            localStorage.setItem('note', notepad.value);
+        });
 
-        function clearNote() {
-            document.getElementById('notepad').value = "";
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            let isDarkMode = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
-        }
-
-        // Load saved dark mode preference
+        // Load saved note
         window.onload = function () {
+            notepad.value = localStorage.getItem('note') || "";
             if (localStorage.getItem('darkMode') === 'enabled') {
                 document.body.classList.add('dark-mode');
             }
         };
+
+        function clearNote() {
+            notepad.value = "";
+            localStorage.removeItem('note');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+        }
     </script>
 
 </body>
