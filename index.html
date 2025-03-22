@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #000;
+            transition: background 0.3s, color 0.3s;
+        }
+        textarea {
+            width: 80%;
+            height: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000;
+            transition: background 0.3s, color 0.3s;
+        }
+        .buttons {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .save { background: #4CAF50; color: white; }
+        .load { background: #2196F3; color: white; }
+        .clear { background: #f44336; color: white; }
+        .dark-mode-btn { background: #555; color: white; }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+        body.dark-mode textarea {
+            background-color: #333;
+            color: #fff;
+            border-color: #777;
+        }
+        body.dark-mode .dark-mode-btn {
+            background: #fff;
+            color: #000;
+        }
+
+        @media (max-width: 600px) {
+            textarea {
+                width: 95%;
+                height: 250px;
+            }
+            button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Notes</h2>
+    <textarea id="notepad" placeholder="Write your notes here..."></textarea>
+    <div class="buttons">
+        <button class="save" onclick="saveNote()">Save</button>
+        <button class="load" onclick="loadNote()">Load</button>
+        <button class="clear" onclick="clearNote()">Clear</button>
+        <button class="dark-mode-btn" onclick="toggleDarkMode()">Dark Mode</button>
+    </div>
+
+    <script>
+        function saveNote() {
+            let text = document.getElementById('notepad').value;
+            localStorage.setItem('note', text);
+            alert("Saved note!");
+        }
+
+        function loadNote() {
+            let text = localStorage.getItem('note');
+            if (text) {
+                document.getElementById('notepad').value = text;
+                alert("Loaded note!");
+            } else {
+                alert("No saved note found.");
+            }
+        }
+
+        function clearNote() {
+            document.getElementById('notepad').value = "";
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            let isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+        }
+
+        // Load saved dark mode preference
+        window.onload = function () {
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+            }
+        };
+    </script>
+
+</body>
+</html>

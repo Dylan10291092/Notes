@@ -1,0 +1,10 @@
+@media (max-width: 600px) {
+    textarea {
+        width: 95%;  /* Use more screen space on smaller devices */
+        height: 250px;
+    }
+    button {
+        width: 100%;  /* Make buttons full-width */
+        margin: 5px 0;
+    }
+}
